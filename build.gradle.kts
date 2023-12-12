@@ -15,9 +15,3 @@ buildscript {
         classpath(libs.resources.generator)
     }
 }
-
-allprojects {
-    repositories {
-        mavenCentral()
-    }
-}

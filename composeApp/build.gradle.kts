@@ -25,8 +25,6 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-            export("dev.icerock.moko:resources:0.23.0")
-            export("dev.icerock.moko:graphics:0.9.0") // toUIColor here
         }
     }
     
@@ -43,13 +41,29 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-            implementation(libs.resources.compose) // for compose multiplatform
+            api(libs.resources.compose) // for compose multiplatform
+
         }
+        val iosX64Main by getting {
+            resources.srcDirs("build/generated/moko/iosX64Main/src")
+        }
+        val iosArm64Main by getting {
+            resources.srcDirs("build/generated/moko/iosArm64Main/src")
+        }
+        val iosSimulatorArm64Main by getting {
+            resources.srcDirs("build/generated/moko/iosSimulatorArm64Main/src")
+        }
+
+
 
     }
 }
 
 android {
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
+    }
+
     namespace = "org.talaa.mahmoud"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -81,6 +95,7 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+
 }
 
 multiplatformResources {
